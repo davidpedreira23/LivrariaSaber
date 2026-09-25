@@ -23,5 +23,6 @@ public class ItemCarrinho {
 
     public double getSubtotal() {
         return precoUnitario * quantidade;
+        // TROQUEI O NOME PRINCIPAL DA PASTA
     }
 }
