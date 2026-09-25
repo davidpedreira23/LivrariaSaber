@@ -1,0 +1,635 @@
+/*
+ * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
+ * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JFrame.java to edit this template
+ */
+package Pai;
+import javax.swing.table.DefaultTableModel;
+import java.sql.*;
+import conexao.conexao;
+import javax.swing.JFrame;
+import javax.swing.JOptionPane;
+/**
+ *
+ * @author Admin
+ */
+
+
+
+public class TelaCadastrarLivro extends javax.swing.JFrame {
+
+    conexao con_livro;
+
+
+    private static final java.util.logging.Logger logger = java.util.logging.Logger.getLogger(TelaCadastrarLivro.class.getName());
+
+    /**
+     * Creates new form TelaCadastrarLivro
+     */
+    public TelaCadastrarLivro() {
+        initComponents();
+        con_livro = new conexao();
+        con_livro.conecta();
+        this.setLocationRelativeTo(null);
+        this.setResizable(false);
+        con_livro.executaSQL("select * from tblivros order by cod");
+preencherTabela();
+posicionarRegistro();
+jTable1.setAutoCreateRowSorter(true);// ativa a classificação ordenada da tabela
+    }
+public void preencherTabela() {
+
+    jTable1.getColumnModel().getColumn(0).setPreferredWidth(4);
+    jTable1.getColumnModel().getColumn(1).setPreferredWidth(150);
+    jTable1.getColumnModel().getColumn(2).setPreferredWidth(11);
+    jTable1.getColumnModel().getColumn(3).setPreferredWidth(4);
+    jTable1.getColumnModel().getColumn(5).setPreferredWidth(13);
+    jTable1.getColumnModel().getColumn(6).setPreferredWidth(14);
+    jTable1.getColumnModel().getColumn(7).setPreferredWidth(15);
+
+    DefaultTableModel modelo = (DefaultTableModel) jTable1.getModel();
+    modelo.setNumRows(0);
+
+    try {
+
+        con_livro.resultset.beforeFirst();
+
+       while (con_livro.resultset.next()) {
+
+    modelo.addRow(new Object[]{
+        con_livro.resultset.getString("cod"),
+        con_livro.resultset.getString("titulo"),
+        con_livro.resultset.getString("autor"),
+        con_livro.resultset.getString("editora"),
+        con_livro.resultset.getString("ano"),
+        con_livro.resultset.getString("preco"),
+        con_livro.resultset.getString("ISBN"),
+        con_livro.resultset.getString("estoque")
+    });
+
+
+        }
+
+    } catch (SQLException erro) {
+      JOptionPane.showMessageDialog(null,"\n Erro ao listar dados da tabela!! :\n "+erro,"Mensagem do Programa",JOptionPane.INFORMATION_MESSAGE);
+
+    }
+}
+public void posicionarRegistro() {
+    try {
+        con_livro.resultset.first(); // posiciona no 1º registro da tabela
+        mostrar_Dados(); // chama o método que irá buscar o dado da tabela
+    } catch (SQLException erro) {
+       JOptionPane.showMessageDialog(null,"Não foi possível posicionar no primeiro registro: "+erro,"Mensagem do Programa",JOptionPane.INFORMATION_MESSAGE);
+    }
+}
+public void mostrar_Dados() {
+    try {
+
+        codigot.setText(con_livro.resultset.getString("cod")); // Associar a caixa de texto ao campo cod
+        titulot.setText(con_livro.resultset.getString("titulo")); // Associar a caixa de texto ao campo titulo
+        autort.setText(con_livro.resultset.getString("autor"));
+        editorat.setText(con_livro.resultset.getString("editora"));
+        anot.setText(con_livro.resultset.getString("ano"));
+
+    } catch (SQLException erro) {
+        JOptionPane.showMessageDialog(null,"Não localizou dados: "+erro,"Mensagem do Programa",JOptionPane.INFORMATION_MESSAGE);
+    }
+}private void tblLivrosMouseClicked(java.awt.event.MouseEvent evt) {
+
+    int linha_selecionada = jTable1.getSelectedRow();
+
+    if (linha_selecionada >= 0) {
+
+        codigot.setText(jTable1.getValueAt(linha_selecionada, 0).toString());
+        titulot.setText(jTable1.getValueAt(linha_selecionada, 1).toString());
+        autort.setText(jTable1.getValueAt(linha_selecionada, 2).toString());
+        editorat.setText(jTable1.getValueAt(linha_selecionada, 3).toString());
+        anot.setText(jTable1.getValueAt(linha_selecionada, 4).toString());
+        preco.setText(jTable1.getValueAt(linha_selecionada, 5).toString());
+        isbn.setText(jTable1.getValueAt(linha_selecionada, 6).toString());
+        estoque.setText(jTable1.getValueAt(linha_selecionada, 7).toString());
+    }
+
+
+}
+private void tblLivrosKeyPressed(java.awt.event.KeyEvent evt) {
+
+    // evento que sincroniza a grid com as setas do teclado
+
+    int linha_selecionada = jTable1.getSelectedRow();
+
+    codigot.setText(jTable1.getValueAt(linha_selecionada, 0).toString());
+    titulot.setText(jTable1.getValueAt(linha_selecionada, 1).toString());
+    autort.setText(jTable1.getValueAt(linha_selecionada, 2).toString());
+    editorat.setText(jTable1.getValueAt(linha_selecionada, 3).toString());
+    anot.setText(jTable1.getValueAt(linha_selecionada, 4).toString());
+
+}
+    /**
+     * This method is called from within the constructor to initialize the form.
+     * WARNING: Do NOT modify this code. The content of this method is always
+     * regenerated by the Form Editor.
+     */
+    @SuppressWarnings("unchecked")
+    // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
+    private void initComponents() {
+
+        jScrollPane1 = new javax.swing.JScrollPane();
+        jTable1 = new javax.swing.JTable();
+        codigo = new javax.swing.JLabel();
+        titulo = new javax.swing.JLabel();
+        autor = new javax.swing.JLabel();
+        editora = new javax.swing.JLabel();
+        ano = new javax.swing.JLabel();
+        codigot = new javax.swing.JTextField();
+        titulot = new javax.swing.JTextField();
+        autort = new javax.swing.JTextField();
+        editorat = new javax.swing.JTextField();
+        anot = new javax.swing.JTextField();
+        jButton1 = new javax.swing.JButton();
+        jButton2 = new javax.swing.JButton();
+        jButton3 = new javax.swing.JButton();
+        btnUtimo = new javax.swing.JButton();
+        Cadastrar = new javax.swing.JButton();
+        jButton7 = new javax.swing.JButton();
+        btnExcluir = new javax.swing.JButton();
+        btnAlterar = new javax.swing.JButton();
+        preco = new javax.swing.JTextField();
+        ano1 = new javax.swing.JLabel();
+        estoque = new javax.swing.JTextField();
+        ano2 = new javax.swing.JLabel();
+        isbn = new javax.swing.JTextField();
+        ano4 = new javax.swing.JLabel();
+        jComboBox1 = new javax.swing.JComboBox<>();
+
+        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+
+        jTable1.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+                {null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null}
+            },
+            new String [] {
+                "Código", "Título", "Autor", "Editora", "Ano", "Preço", "ISBN", "Estoque"
+            }
+        ) {
+            boolean[] canEdit = new boolean [] {
+                false, false, false, false, false, false, false, false
+            };
+
+            public boolean isCellEditable(int rowIndex, int columnIndex) {
+                return canEdit [columnIndex];
+            }
+        });
+        jTable1.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                tblLivrosMouseClicked(evt);
+            }
+        });
+        jTable1.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                tblLivrosKeyPressed(evt);
+            }
+        });
+        jScrollPane1.setViewportView(jTable1);
+        if (jTable1.getColumnModel().getColumnCount() > 0) {
+            jTable1.getColumnModel().getColumn(7).setResizable(false);
+        }
+
+        codigo.setText("Código:");
+
+        titulo.setText("Título:");
+
+        autor.setText("Autor:");
+
+        editora.setText("Editora:");
+
+        ano.setText("Ano:");
+
+        jButton1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Pai/Previous record.gif"))); // NOI18N
+        jButton1.addActionListener(this::jButton1ActionPerformed);
+
+        jButton2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Pai/Playback.gif"))); // NOI18N
+        jButton2.addActionListener(this::jButton2ActionPerformed);
+
+        jButton3.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Pai/Play.gif"))); // NOI18N
+        jButton3.addActionListener(this::jButton3ActionPerformed);
+
+        btnUtimo.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Pai/last recor.gif"))); // NOI18N
+        btnUtimo.addActionListener(this::btnUtimoActionPerformed);
+
+        Cadastrar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Pai/Save.gif"))); // NOI18N
+        Cadastrar.addActionListener(this::CadastrarActionPerformed);
+
+        jButton7.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Pai/Add.gif"))); // NOI18N
+        jButton7.addActionListener(this::jButton7ActionPerformed);
+
+        btnExcluir.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Pai/Delete.gif"))); // NOI18N
+        btnExcluir.addActionListener(this::btnExcluirActionPerformed);
+
+        btnAlterar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Pai/Notes.gif"))); // NOI18N
+        btnAlterar.addActionListener(this::btnAlterarActionPerformed);
+
+        ano1.setText("Preço");
+
+        estoque.addActionListener(this::estoqueActionPerformed);
+
+        ano2.setText("ISBN");
+
+        ano4.setText("Estoque");
+
+        jComboBox1.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Tela emprestimo\t", "Tela cadastrar", "Tela venda", "Tela login", "Cadastrar livro", " " }));
+        jComboBox1.addActionListener(this::jComboBox1ActionPerformed);
+
+        javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
+        getContentPane().setLayout(layout);
+        layout.setHorizontalGroup(
+            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(layout.createSequentialGroup()
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 735, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(40, 40, 40)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(layout.createSequentialGroup()
+                                .addGap(6, 6, 6)
+                                .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 57, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                .addComponent(jButton2, javax.swing.GroupLayout.PREFERRED_SIZE, 54, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(18, 18, 18)
+                                .addComponent(jButton3, javax.swing.GroupLayout.PREFERRED_SIZE, 55, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(18, 18, 18)
+                                .addComponent(btnUtimo, javax.swing.GroupLayout.PREFERRED_SIZE, 59, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addComponent(jButton7, javax.swing.GroupLayout.PREFERRED_SIZE, 67, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(31, 31, 31)
+                                .addComponent(Cadastrar, javax.swing.GroupLayout.PREFERRED_SIZE, 63, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(28, 28, 28))
+                            .addGroup(layout.createSequentialGroup()
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(codigo)
+                                    .addComponent(titulo)
+                                    .addComponent(autor)
+                                    .addComponent(editora)
+                                    .addComponent(ano)
+                                    .addComponent(ano1)
+                                    .addComponent(ano2)
+                                    .addComponent(ano4))
+                                .addGap(57, 57, 57)
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                    .addComponent(codigot, javax.swing.GroupLayout.PREFERRED_SIZE, 114, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(titulot)
+                                    .addComponent(autort)
+                                    .addComponent(editorat)
+                                    .addComponent(anot, javax.swing.GroupLayout.DEFAULT_SIZE, 298, Short.MAX_VALUE)
+                                    .addComponent(preco, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 298, Short.MAX_VALUE)
+                                    .addComponent(estoque, javax.swing.GroupLayout.DEFAULT_SIZE, 298, Short.MAX_VALUE)
+                                    .addComponent(isbn, javax.swing.GroupLayout.DEFAULT_SIZE, 298, Short.MAX_VALUE))
+                                .addGap(131, 131, 131)))
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jComboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addGroup(layout.createSequentialGroup()
+                                .addComponent(btnAlterar, javax.swing.GroupLayout.PREFERRED_SIZE, 62, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(29, 29, 29)
+                                .addComponent(btnExcluir, javax.swing.GroupLayout.PREFERRED_SIZE, 64, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addGap(18, 18, 18)))
+                .addContainerGap())
+        );
+        layout.setVerticalGroup(
+            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(layout.createSequentialGroup()
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(41, 41, 41)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(codigo)
+                            .addComponent(codigot, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(23, 23, 23)
+                        .addComponent(jComboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addGap(23, 23, 23)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(titulo)
+                    .addComponent(titulot, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(23, 23, 23)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(autor)
+                    .addComponent(autort, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(22, 22, 22)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(editora)
+                    .addComponent(editorat, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(20, 20, 20)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(ano)
+                    .addComponent(anot, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(21, 21, 21)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(preco, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(ano1))
+                .addGap(21, 21, 21)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(ano2)
+                    .addComponent(isbn, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(21, 21, 21)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(estoque, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(ano4))
+                .addGap(37, 37, 37)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(btnExcluir, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(btnAlterar, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(jButton7, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addGroup(layout.createSequentialGroup()
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addComponent(jButton1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(jButton2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(jButton3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(btnUtimo, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                        .addGap(0, 0, Short.MAX_VALUE))
+                    .addComponent(Cadastrar, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addGap(34, 34, 34)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 156, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(18, 18, 18))
+        );
+
+        pack();
+    }// </editor-fold>//GEN-END:initComponents
+
+    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+        try {
+        con_livro.resultset.first();
+        mostrar_Dados();
+    } catch(SQLException erro){
+        JOptionPane.showMessageDialog(null,"Não foi possível acessar o primeiro registro: "+erro);
+    }
+    }//GEN-LAST:event_jButton1ActionPerformed
+
+    private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
+        try {
+        con_livro.resultset.previous();
+        mostrar_Dados();
+    } catch(SQLException erro){
+        JOptionPane.showMessageDialog(null,"Não foi possível posicionar no registro anterior: "+erro);
+    }
+    }//GEN-LAST:event_jButton2ActionPerformed
+
+    private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
+        try {
+        con_livro.resultset.next();
+        mostrar_Dados();
+    } catch(SQLException erro){
+        JOptionPane.showMessageDialog(null,"Não foi possível posicionar no próximo registro: "+erro);
+    }
+    }//GEN-LAST:event_jButton3ActionPerformed
+
+    private void btnUtimoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnUtimoActionPerformed
+
+        try {
+        con_livro.resultset.last();
+        mostrar_Dados();
+    } catch(SQLException erro){
+        JOptionPane.showMessageDialog(null,"Não foi possível posicionar no último registro: "+erro);
+    }        // TODO add your handling code here:
+
+    }//GEN-LAST:event_btnUtimoActionPerformed
+
+    private void jButton7ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton7ActionPerformed
+codigot.setText("");
+        titulot.setText("");
+        autort.setText("");
+        editorat.setText("");
+        anot.setText("");
+        codigot.setText("");
+        preco.setText("");
+        isbn.setText("");
+        estoque.setText("");
+        codigot.requestFocus();
+                // TODO add your handling code here:
+    }//GEN-LAST:event_jButton7ActionPerformed
+
+    private void btnExcluirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnExcluirActionPerformed
+
+String sql="";
+try {
+    int resposta = JOptionPane.showConfirmDialog(rootPane, "Deseja excluir o registro: ","Confirmar Exclusão", JOptionPane.YES_NO_OPTION,3);
+    if (resposta==0){
+        sql = "delete from tblivros where cod = " + codigot.getText();
+        int excluir = con_livro.statement.executeUpdate(sql);
+        if (excluir==1){
+            JOptionPane.showMessageDialog(null,"Exclusão realizada com sucesso!!","Mensagem do Programa",JOptionPane.INFORMATION_MESSAGE);
+            con_livro.executaSQL("select * from tblivros order by cod");
+            con_livro.resultset.first();
+            preencherTabela();
+            posicionarRegistro();
+        }
+        else{
+            JOptionPane.showMessageDialog(null,"Operação cancelada pelo usuário!!","Mensagem do Programa",JOptionPane.INFORMATION_MESSAGE);
+        }
+    }
+}catch (SQLException excecao){
+    JOptionPane.showMessageDialog(null,"Erro na exclusão: "+excecao,"Mensagem do Programa",JOptionPane.INFORMATION_MESSAGE);
+}
+
+    }//GEN-LAST:event_btnExcluirActionPerformed
+
+    private void CadastrarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_CadastrarActionPerformed
+
+    String titulo_txt = titulot.getText();
+    String autor_txt = autort.getText();
+    String editora_txt = editorat.getText();
+    String ano_txt = anot.getText();
+    String preco_txt = preco.getText().replace(",", ".");
+    String isbn_txt = isbn.getText();
+    String estoque_txt = estoque.getText();
+
+    try {
+
+        String insert_sql =
+            "INSERT INTO tblivros " +
+            "(titulo, autor, editora, ano, preco, ISBN, estoque) " +
+            "VALUES ('" +
+            titulo_txt + "', '" +
+            autor_txt + "', '" +
+            editora_txt + "', " +
+            ano_txt + ", " +
+            preco_txt + ", '" +
+            isbn_txt + "', " +
+            estoque_txt + ")";
+
+        con_livro.statement.executeUpdate(insert_sql);
+
+        JOptionPane.showMessageDialog(
+            null,
+            "Livro cadastrado com sucesso!",
+            "Mensagem do programa",
+            JOptionPane.INFORMATION_MESSAGE
+        );
+
+        con_livro.executaSQL("SELECT * FROM tblivros ORDER BY cod");
+
+        preencherTabela();
+
+        con_livro.resultset.last();
+        mostrar_Dados();
+
+    } catch (SQLException erroSQL) {
+
+        JOptionPane.showMessageDialog(
+            null,
+            "Erro ao cadastrar livro:\n" + erroSQL,
+            "Mensagem do programa",
+            JOptionPane.ERROR_MESSAGE
+        );
+    }
+
+
+
+
+    }//GEN-LAST:event_CadastrarActionPerformed
+
+    private void btnAlterarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAlterarActionPerformed
+
+String titulo_txt = titulot.getText();
+String autor_txt = autort.getText();
+String editora_txt = editorat.getText();
+String preco_num = preco.getText();
+String isbn_num = isbn.getText();
+String estoque_num = estoque.getText();
+String ano_txt = ano.getText();
+
+
+String sql="";
+String msg="";
+try {
+
+    if (codigot.getText().equals("")) {
+
+        sql = "INSERT INTO tblivros " +
+              "(titulo, autor, editora, ano, preco, isbn, estoque) " +
+              "VALUES ('" + titulo_txt + "', '" +
+                          autor_txt + "', '" +
+                          editora_txt + "', '" +
+                          ano_txt + "', " +
+                          preco_num + ", '" +
+                          isbn_num + "', " +
+                          estoque_num + ")";
+
+        msg = "Gravação de um novo registro";
+
+    } else {
+
+        sql = "UPDATE tblivros SET " +
+              "titulo='" + titulo_txt + "', " +
+              "autor='" + autor_txt + "', " +
+              "editora='" + editora_txt + "', " +
+              "ano='" + ano_txt + "', " +
+              "preco=" + preco_num + ", " +
+              "isbn='" + isbn_num + "', " +
+              "estoque=" + estoque_num + " " +
+              "WHERE cod=" + codigot.getText();
+
+        msg = "Alteração de registro";
+    }
+
+    con_livro.statement.executeUpdate(sql);
+    JOptionPane.showMessageDialog(null,msg+" realizada com sucesso!!","Mensagem do Programa",JOptionPane.INFORMATION_MESSAGE);
+
+    con_livro.executaSQL("select * from tblivros order by cod");
+    con_livro.resultset.first();
+    preencherTabela();
+    mostrar_Dados();
+
+}catch(SQLException errosql){
+    JOptionPane.showMessageDialog(null,"\n Erro na gravação :\n "+errosql,"Mensagem do Programa",JOptionPane.INFORMATION_MESSAGE);
+}
+
+
+
+    }//GEN-LAST:event_btnAlterarActionPerformed
+
+    private void estoqueActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_estoqueActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_estoqueActionPerformed
+
+    private void jComboBox1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jComboBox1ActionPerformed
+
+ String opcaoSelecionada = (String) jComboBox1.getSelectedItem();
+        switch (opcaoSelecionada) {
+            case "Tela venda":
+                new TelaVenda().setVisible(true);
+                dispose();
+                break;
+            case "Tela emprestimo":
+                new TelaEmprestimo().setVisible(true);
+                dispose();
+                break;
+                case "Tela login":
+                new TelaLogin().setVisible(true);
+                dispose();
+                break;
+                case "Cadastrar livro":
+                new TelaCadastrarLivro().setVisible(true);
+                dispose();
+                break;
+        }    }//GEN-LAST:event_jComboBox1ActionPerformed
+
+    /**
+     * @param args the command line arguments
+     */
+    public static void main(String args[]) {
+        /* Set the Nimbus look and feel */
+        //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
+        /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
+         * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html
+         */
+        try {
+            for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
+                if ("Nimbus".equals(info.getName())) {
+                    javax.swing.UIManager.setLookAndFeel(info.getClassName());
+                    break;
+                }
+            }
+        } catch (ReflectiveOperationException | javax.swing.UnsupportedLookAndFeelException ex) {
+            logger.log(java.util.logging.Level.SEVERE, null, ex);
+        }
+        //</editor-fold>
+
+        /* Create and display the form */
+        java.awt.EventQueue.invokeLater(() -> new TelaCadastrarLivro().setVisible(true));
+    }
+
+    // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton Cadastrar;
+    private javax.swing.JLabel ano;
+    private javax.swing.JLabel ano1;
+    private javax.swing.JLabel ano2;
+    private javax.swing.JLabel ano4;
+    private javax.swing.JTextField anot;
+    private javax.swing.JLabel autor;
+    private javax.swing.JTextField autort;
+    private javax.swing.JButton btnAlterar;
+    private javax.swing.JButton btnExcluir;
+    private javax.swing.JButton btnUtimo;
+    private javax.swing.JLabel codigo;
+    private javax.swing.JTextField codigot;
+    private javax.swing.JLabel editora;
+    private javax.swing.JTextField editorat;
+    private javax.swing.JTextField estoque;
+    private javax.swing.JTextField isbn;
+    private javax.swing.JButton jButton1;
+    private javax.swing.JButton jButton2;
+    private javax.swing.JButton jButton3;
+    private javax.swing.JButton jButton7;
+    private javax.swing.JComboBox<String> jComboBox1;
+    private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JTable jTable1;
+    private javax.swing.JTextField preco;
+    private javax.swing.JLabel titulo;
+    private javax.swing.JTextField titulot;
+    // End of variables declaration//GEN-END:variables
+}
